@@ -1,0 +1,55 @@
+#
+# Symlinks and other install commands. Localizations based on LocalOSConfig are possible by
+# using $CONSTANT.
+#
+
+#
+# Remove previously compiled templates, if present
+#
+
+if [ -d $GALAXY_COMPILED_TEMPLATES ]; then rm -R $GALAXY_COMPILED_TEMPLATES; fi 
+
+#
+# Create HyperBrowser specific directories in the Galaxy installation directory,
+# if not previously created
+#
+
+if [ ! -d $HB_DATA_BASE_DIR ]; then mkdir -p $HB_DATA_BASE_DIR; fi
+if [ ! -d $STATIC_PATH ]; then mkdir -p $STATIC_PATH; fi
+if [ ! -d $STATIC_PATH/html ]; then mkdir -p $STATIC_PATH/html; fi
+if [ ! -d $GALAXY_TOOL_PATH/hyperbrowser_localized ]; then mkdir -p $GALAXY_TOOL_PATH/hyperbrowser_localized; fi
+
+#
+# Create symlinks connecting files and directories in the HyperBrowser source tree
+# to corresponding locations in the Galaxy tree
+#
+
+ln -sfT		$HB_SOURCE_CODE_BASE_DIR	                                    $SRC_PATH
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/lib/hyperbrowser	            $GALAXY_BASE_DIR/lib/hyperbrowser
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/tools/hyperbrowser			$GALAXY_TOOL_PATH/hyperbrowser
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/templates/hyperbrowser		$GALAXY_TEMPLATES_PATH/hyperbrowser
+
+#
+# Setup R library directories
+#
+
+if [ ! -d $HB_LIB_PATH/R-$R_VERSION ]; then mkdir -p $HB_LIB_PATH/R-$R_VERSION; fi
+ln -sfT     $HB_LIB_PATH/R-$R_VERSION                                   $HB_LIB_PATH/R
+if [ ! -d $HB_R_LIBS_DIR ]; then mkdir -p $HB_R_LIBS_DIR; fi
+
+#
+# Create symlinks for static web files and directories
+#
+
+ln -sfT		$SRC_STATIC_PATH/images                                     $STATIC_PATH/images
+ln -sfT		$MAPS_PATH                                                  $STATIC_PATH/maps
+ln -sfT		$SRC_STATIC_PATH/notes                                      $STATIC_PATH/notes
+ln -sfT		$RESULTS_STATIC_PATH/run_specific		                    $STATIC_PATH/run_specific
+ln -sfT		$SRC_STATIC_PATH/source		                                $STATIC_PATH/source
+
+#
+# Copy configuration files from sample if not present
+#
+
+if [ ! -e $GALAXY_TOOL_CONFIG_FILE ]; then cp $GALAXY_TOOL_CONFIG_FILE.sample $GALAXY_TOOL_CONFIG_FILE; fi
+if [ ! -e $GALAXY_DATATYPES_CONFIG_FILE ]; then cp $GALAXY_DATATYPES_CONFIG_FILE.sample $GALAXY_DATATYPES_CONFIG_FILE; fi

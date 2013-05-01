@@ -1,0 +1,13 @@
+K 10
+svn:ignore
+V 123
+patch_files.setup
+patch_files.installation.setup
+localize_files.setup
+copy_files.setup
+dirs.setup
+dirs.2.setup
+*.pyc
+*.old
+
+END

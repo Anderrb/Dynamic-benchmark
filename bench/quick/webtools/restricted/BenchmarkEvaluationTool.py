@@ -1,0 +1,252 @@
+# Copyright (C) 2009, Geir Kjetil Sandve, Sveinung Gundersen and Morten Johansen
+# This file is part of The Genomic HyperBrowser.
+#
+#    The Genomic HyperBrowser is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    The Genomic HyperBrowser is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with The Genomic HyperBrowser.  If not, see <http://www.gnu.org/licenses/>.
+from quick.webtools.GeneralGuiTool import GeneralGuiTool
+from quick.application.ExternalTrackManager import ExternalTrackManager
+from quick.util.StaticFile import RunSpecificPickleFile
+from quick.util.BenchmarkEvaluation import BenchmarkEvaluation
+from quick.util.BenchmarkUtil import BenchmarkUtil
+
+'''
+This tool is used to evaluate the results of algorithms for a given benchmark.
+'''
+class BenchmarkEvaluationTool(GeneralGuiTool):
+    
+    @staticmethod
+    def getToolName():
+        return "Benchmark evaluation tool"
+
+    @staticmethod
+    def getInputBoxNames():
+        "Returns a list of names for input boxes, implicitly also the number of input boxes to display on page. Each such box will call function getOptionsBoxK, where K is in the range of 1 to the number of boxes"
+        #can have two syntaxes: either a list of stings or a list of tuples where each tuple has two items(Name of box on webPage, name of getOptionsBox)
+        return ['Select benchmark:', 'Select benchmark type:', 'Select result files:']
+
+    @staticmethod    
+    def getOptionsBox1():
+        '''Returns a list of options to be displayed in the first options box
+        Alternatively, the following have special meaning:
+        '__genome__'
+        '__track__'
+        ('__history__','bed','wig','...')
+        '''
+        return ('__history__','bench')
+    
+    @staticmethod    
+    def getOptionsBox2(prevChoices): 
+        return ['Single test set', 'Benchmark suite']
+    
+    @staticmethod    
+    def getOptionsBox3(prevChoices): 
+        '''Returns a list of options to be displayed in the second options box, 
+        which will be displayed after a selection is made in the first box.
+        prevChoices is a list of selections made by the web-user in the previous 
+        input boxes (that is, list containing only one element for this case)        
+        '''
+        if prevChoices[1] == 'Single test set':
+            return ('__multihistory__','gtrack', 'weeder', 'meme', 'glimmer', 'prodigal', 'ymf')
+        elif prevChoices[1] == 'Benchmark suite':
+            return ''
+    
+    def evaluateBinaryClassificationBenchmarkFromHistoryOnNucleotideLevel(self, benchmarkSpecification, choices, galaxyFn, username):
+        # Retrieve data from benchmark specification
+        genome = benchmarkSpecification[0]
+        regionTrackName = benchmarkSpecification[3]
+        answerTrackName = benchmarkSpecification[4]
+        
+        # Get prediction files Single test set
+        predictionDict = choices[2]
+        
+        # Specify what analysis to run
+        analysisDef = 'dummy -> RawOverlapStat'
+        ROCanalysisDef = 'dummy -> MarksSortedNucleotideLevelSegmentsStat'
+        
+        # Initialize classes
+        benchmarkUtil = BenchmarkUtil(galaxyFn, genome)
+        benchmarkEvaluator = BenchmarkEvaluation(galaxyFn, username, genome)
+        
+        # Convert prediction files to GTrack
+        predictionDict, algorithmNames = \
+            benchmarkUtil.convertPredictionDictionaryToGTrack(predictionDict, regionTrackName)
+        
+        # Run evaluation
+        results = benchmarkEvaluator.runBinaryClassificationEvaluation(algorithmNames, 
+              predictionDict, answerTrackName, regionTrackName, analysisDef, ROCanalysisDef)
+        
+        return results
+    
+    def evaluateBinaryClassificationBenchmarkFromHistoryOnSequenceLevel(self, benchmarkSpecification, choices, galaxyFn, username):
+        # Retrieve data from benchmark specification
+        genome = benchmarkSpecification[0]
+        regionTrackName = benchmarkSpecification[3]
+        
+        # Get prediction files Single test set
+        predictionDict = choices[2]
+        
+        # Specify what analysis to run
+        analysisDef = 'dummy -> SequenceLevelOverlapStat'
+        ROCanalysisDef = 'dummy -> MarksSortedSequenceLevelSegmentsStat'
+        
+        # Initialize classes
+        benchmarkUtil = BenchmarkUtil(galaxyFn, genome)
+        benchmarkEvaluator = BenchmarkEvaluation(galaxyFn, username, genome)
+        
+        # Convert prediction files to GTrack
+        predictionDict, algorithmNames = benchmarkUtil.convertPredictionDictionaryToGTrack(predictionDict, regionTrackName)
+        
+        # Run evaluation
+        results = benchmarkEvaluator.runBinaryClassificationEvaluation(algorithmNames, 
+            predictionDict, regionTrackName, regionTrackName, analysisDef, ROCanalysisDef)
+        
+        return results
+    
+    def evaluateBinaryClassificationBenchmarkFromURLOnNucleotideLevel(self, benchmarkSpecification, choices, galaxyFn, username):
+        # Retrieve data from benchmark specification
+        genome = benchmarkSpecification[0]
+        regionTrackNames = benchmarkSpecification[3]
+        answerTrackNames = benchmarkSpecification[4]
+        
+        # Specify the url of the prediction file source
+        url = choices[2]
+        
+        # Specify what analysis to run
+        analysisDef = 'dummy -> RawOverlapStat'
+        ROCanalysisDef = 'dummy -> MarksSortedNucleotideLevelSegmentsStat'
+        
+        # Initialize classes
+        benchmarkUtil = BenchmarkUtil(galaxyFn, genome)
+        benchmarkEvaluator = BenchmarkEvaluation(galaxyFn, username, genome)
+        
+        # Retrieve the prediction from the URL and convert the predictions to GTrack
+        predictionList = benchmarkUtil.downloadFileFromURL(url)
+        predictionList, algorithmNames = benchmarkUtil.convertPredictionListToGTrack(predictionList, regionTrackNames)
+        
+        # Run evaluation
+        results = benchmarkEvaluator.runBinaryClassificationSuiteEvaluation(algorithmNames, 
+            predictionList, answerTrackNames, regionTrackNames, analysisDef, ROCanalysisDef)
+        
+        return results
+    
+    def evaluateBinaryClassificationBenchmarkFromURLOnSequenceLevel(self, benchmarkSpecification, choices, galaxyFn, username):
+        # Retrieve data from benchmark specification
+        genome = benchmarkSpecification[0]
+        regionTrackNames = benchmarkSpecification[3]
+        
+        # Specify the url of the prediction file source
+        url = choices[2]
+        
+        # Specify what analysis to run
+        analysisDef = 'dummy -> SequenceLevelOverlapStat'
+        ROCanalysisDef = 'dummy -> MarksSortedSequenceLevelSegmentsStat'
+        
+        # Initialize classes
+        benchmarkUtil = BenchmarkUtil(galaxyFn, genome)
+        benchmarkEvaluator = BenchmarkEvaluation(galaxyFn, username, genome)
+        
+        # Retrieve the prediction from the URL and convert the predictions to GTrack
+        predictionList = benchmarkUtil.downloadFileFromURL(url)
+        predictionList, algorithmNames = benchmarkUtil.convertPredictionListToGTrack(predictionList, regionTrackNames)
+        
+        # Run evaluation
+        results = benchmarkEvaluator.runBinaryClassificationSuiteEvaluation(algorithmNames, 
+            predictionList, regionTrackNames, regionTrackNames, analysisDef, ROCanalysisDef)
+        
+        return results
+    
+    def evaluateFunctionTrackBenchmarkFromHistoryOnBPPropabilityLevel(self, benchmarkSpecification, choices, galaxyFn, username):
+        # Retrieve data from benchmark specification
+        genome = benchmarkSpecification[0]
+        regionTrackName = benchmarkSpecification[3]
+        answerTrackName = benchmarkSpecification[4]
+        
+        # Get prediction files Single test set
+        predictionDict = choices[2]
+        
+        # Specify what analysis to run
+        analysisDef = 'dummy -> FunctionTrackAnalysisStat'
+        ROCanalysisDef = 'dummy -> MarksSortedProbabilityLevelSegmentsStat'
+        scoreDistributionDef = 'dummy -> FunctionTrackScoreDistributionStat'
+        
+        # Initialize classes
+        benchmarkUtil = BenchmarkUtil(galaxyFn, genome)
+        benchmarkEvaluator = BenchmarkEvaluation(galaxyFn, username, genome)
+        
+        # Convert prediction files to GTrack
+        predictionDict, algorithmNames = benchmarkUtil.convertPredictionDictionaryToGTrack(predictionDict, regionTrackName, normalizeValues=True)
+        
+        # Run evaluation
+        results = benchmarkEvaluator.runFunctionTrackEvaluationStatistic(algorithmNames, 
+                        predictionDict, answerTrackName, regionTrackName, analysisDef, ROCanalysisDef, scoreDistributionDef)
+        
+        return results
+    
+    @staticmethod    
+    def execute(choices, galaxyFn=None, username=''):
+        # Retrieve the pickled benchmark object Single test set
+        try:
+            historyInputTN = choices[0].split(':')
+            #same as galaxyFn in execute of create benchmark..
+            historyGalaxyFn = ExternalTrackManager.extractFnFromGalaxyTN( historyInputTN)
+            #finds path to static file created for a previous history element, and directs to a pickle file
+            randomStatic = RunSpecificPickleFile(historyGalaxyFn)
+            benchmarkSpecification = randomStatic.loadPickledObject()
+        except:
+            return None
+        
+        benchmarkEvaluator = BenchmarkEvaluationTool()
+        
+        predictionSource = choices[1]
+        benchmarkType = benchmarkSpecification[1]
+        benchmarkLevel = benchmarkSpecification[2]
+        
+        results = []
+        
+        # Check if its a binary classification benchmark
+        if benchmarkType == 'Motif discovery' or benchmarkType == 'Gene prediction' \
+                or benchmarkType == 'Nucleosome prediction' or benchmarkType == 'Splice site prediction':
+            
+            if benchmarkLevel == 'Nucleotide level' and predictionSource == 'Single test set':
+                results = benchmarkEvaluator.evaluateBinaryClassificationBenchmarkFromHistoryOnNucleotideLevel(benchmarkSpecification, choices, galaxyFn, username)
+            elif benchmarkLevel == 'Sequence level' and predictionSource == 'Single test set':
+                results = benchmarkEvaluator.evaluateBinaryClassificationBenchmarkFromHistoryOnSequenceLevel(benchmarkSpecification, choices, galaxyFn, username)
+            elif benchmarkLevel == 'Nucleotide level' and predictionSource == 'Benchmark suite':
+                results = benchmarkEvaluator.evaluateBinaryClassificationBenchmarkFromURLOnNucleotideLevel(benchmarkSpecification, choices, galaxyFn, username)
+            elif benchmarkLevel == 'Sequence level' and predictionSource == 'Benchmark suite':
+                results = benchmarkEvaluator.evaluateBinaryClassificationBenchmarkFromURLOnSequenceLevel(benchmarkSpecification, choices, galaxyFn, username)
+            elif benchmarkLevel == 'Base pair probability level' and predictionSource == 'Single test set':
+                results = benchmarkEvaluator.evaluateFunctionTrackBenchmarkFromHistoryOnBPPropabilityLevel(benchmarkSpecification, choices, galaxyFn, username)
+            else:
+                raise TypeError('Invalid benchmark specified')
+        else:
+            raise TypeError('%s is not a valid Benchmark Type' % benchmarkType) 
+        
+        # Prints out the results
+        for result in results:
+            print result
+        
+    @staticmethod
+    def validateAndReturnErrors(choices):
+        '''
+        Should validate the selected input parameters. If the parameters are not valid,
+        an error text explaining the problem should be returned. The GUI then shows this text
+        to the user (if not empty) and greys out the execute button (even if the text is empty).
+        If all parameters are valid, the method should return None, which enables the execute button.
+        '''
+        return None
+    
+    @staticmethod
+    def isPublic():
+        return True
+    

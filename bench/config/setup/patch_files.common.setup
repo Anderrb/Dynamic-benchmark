@@ -1,0 +1,58 @@
+#
+# Patches to Galaxy files by The Genomic HyperBrowser. The GalaxyBaseFile is
+# patched with the changes of the HyperBrowserFile and merged into
+# GalaxyOutputFile.
+#
+# Format:
+# HyperBrowserFile
+# HyperBrowserFile	GalaxyBaseFile
+# HyperBrowserFile	GalaxyBaseFile  GalaxyOutputFile
+#
+# If GalaxyBaseFile and/or GalaxyOutputFile are not specified, they are assumed
+# to be equal to HyperBrowserFile.
+#
+# Note that all file paths are relative to the HyperBrowser source directory
+# and the Galaxy installation directory, respectively. Localizations based on
+# LocalOSConfig are possible by using $CONSTANT.
+#
+# See the help for PatchFiles.py for more details.
+#
+
+#
+# Same name
+#
+
+lib/galaxy/tools/actions/history_imp_exp.py
+lib/galaxy/web/controllers/tool_runner.py
+lib/galaxy/web/controllers/dataset.py
+lib/galaxy/eggs/scramble.py
+lib/galaxy/eggs/__init__.py
+lib/galaxy/model/mapping.py
+lib/galaxy/model/migrate/versions/0001_initial_tables.py
+lib/galaxy/tools/__init__.py
+lib/galaxy/datatypes/binary.py
+static/june_2007_style/base.css.tmpl
+static/june_2007_style/make_style.py
+static/june_2007_style/process_css.py
+static/june_2007_style/png_over_color.py
+static/june_2007_style/callout_top.py
+static/june_2007_style/circle.py
+static/june_2007_style/gradient.py
+static/june_2007_style/panel_layout.css.tmpl
+static/june_2007_style/tool_menu.css.tmpl
+templates/base_panels.mako
+templates/dataset/errors.mako
+templates/dataset/display.mako
+templates/user/register.mako
+templates/tool_executed.mako
+templates/webapps/galaxy/base_panels.mako
+templates/root/tool_menu.mako
+templates/root/history_common.mako
+
+#
+# Different name
+#
+
+scripts/hb_scramble.py                      scripts/scramble.py
+static/june_2007_style/HB_colors.ini        static/june_2007_style/blue_colors.ini
+datatypes_conf.xml                          $GALAXY_REL_DATATYPES_CONFIG_FILE           $GALAXY_REL_DATATYPES_CONFIG_FILE

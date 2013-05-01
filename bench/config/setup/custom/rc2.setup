@@ -1,0 +1,11 @@
+#
+# Creates symlinks for setup files specific for the installation
+#
+
+ln -sfT		$HB_SETUP_CONFIG_BASE_DIR/empty.setup                                   $HB_SETUP_CONFIG_BASE_DIR/copy_files.setup
+ln -sfT		$HB_SETUP_CONFIG_BASE_DIR/default/dirs.default.setup                    $HB_SETUP_CONFIG_BASE_DIR/dirs.setup
+ln -sfT		$HB_SETUP_CONFIG_BASE_DIR/default/dirs.2.default.setup                  $HB_SETUP_CONFIG_BASE_DIR/dirs.2.setup
+ln -sfT		$HB_SETUP_CONFIG_BASE_DIR/default/localize_files.default.setup          $HB_SETUP_CONFIG_BASE_DIR/localize_files.setup
+ln -sfT		$HB_SETUP_CONFIG_BASE_DIR/empty.setup                                   $HB_SETUP_CONFIG_BASE_DIR/patch_files.installation.setup
+ln -sfT		$HB_SETUP_CONFIG_BASE_DIR/custom/patch_files.rc2.setup                  $HB_SETUP_CONFIG_BASE_DIR/patch_files.setup
+ln -sfT		$HB_CONFIG_BASE_DIR/custom/LocalOSConfig.rc2.py                         $HB_CONFIG_BASE_DIR/LocalOSConfig.py

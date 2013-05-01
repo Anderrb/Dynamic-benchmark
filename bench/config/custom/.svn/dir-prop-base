@@ -1,0 +1,13 @@
+K 10
+svn:ignore
+V 12
+*.pyc
+*.old
+
+K 13
+svn:mergeinfo
+V 141
+/new_hb/branches/unstable/config/custom:14327-22519
+/new_hb/branches/v1.5.0/config/custom:22516-23372
+/new_hb/trunk/config/custom:14323-23350
+END

@@ -1,0 +1,20 @@
+#
+# Files in the Galaxy file tree that are to be localized (by using the values
+# in LocalOSConfig.py). (These files should previously have been copied or
+# patched)
+#
+# Format:
+# GalaxyFile
+#
+# See the help for LocalizeFiles.py for more details.
+#
+
+run.sh
+#lib/galaxy/eggs/scramble.py
+static/welcome.html
+static/download.html
+templates/base_panels.mako
+templates/user/register.mako
+templates/webapps/galaxy/base_panels.mako
+tools/hyperbrowser_localized/coremine_import.xml
+tools/hyperbrowser_localized/coremine_import_test.xml

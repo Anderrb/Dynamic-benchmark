@@ -1,0 +1,41 @@
+#
+# Symlinks and other install commands. Localizations based on LocalOSConfig are possible by
+# using $CONSTANT.
+#
+
+#
+# Create default HyperBrowser data directories
+#
+
+if [ ! -d $NONSTANDARD_DATA_PATH ]; then mkdir -p $NONSTANDARD_DATA_PATH; fi
+if [ ! -d $ORIG_DATA_PATH ]; then mkdir -p $ORIG_DATA_PATH; fi
+if [ ! -d $PARSING_ERROR_DATA_PATH ]; then mkdir -p $PARSING_ERROR_DATA_PATH; fi
+if [ ! -d $PROCESSED_DATA_PATH ]; then mkdir -p $PROCESSED_DATA_PATH; fi
+if [ ! -d $MEMOIZED_DATA_PATH ]; then mkdir -p $MEMOIZED_DATA_PATH; fi
+
+if [ ! -d $DATA_FILES_PATH ]; then mkdir -p $DATA_FILES_PATH; fi
+if [ ! -d $LOG_PATH ]; then mkdir -p $LOG_PATH; fi
+if [ ! -d $MAPS_PATH ]; then mkdir -p $MAPS_PATH; fi
+if [ ! -d $NMER_CHAIN_DATA_PATH ]; then mkdir -p $NMER_CHAIN_DATA_PATH; fi
+if [ ! -d $RESULTS_PATH ]; then mkdir -p $RESULTS_PATH; fi
+if [ ! -d $RESULTS_STATIC_PATH ]; then mkdir -p $RESULTS_STATIC_PATH; fi
+if [ ! -d $RESULTS_STATIC_PATH/run_specific ]; then mkdir -p $RESULTS_STATIC_PATH/run_specific; fi
+
+#
+# Create symlinks to Galaxy output directories
+#
+
+ln -sfT		$GALAXY_FILE_PATH           $RESULTS_FILES_PATH
+ln -sfT		$GALAXY_JOB_WORKING_DIR     $RESULTS_PATH/job_working_directory
+
+#
+# Create symlinks for static web files and directories
+#
+
+ln -sfT		$SRC_STATIC_PATH/gtrack                 $STATIC_PATH/gtrack
+
+#
+# Copy configuration files from sample if not present
+#
+
+if [ ! -e $GALAXY_BASE_DIR/universe_wsgi.ini ]; then cp $GALAXY_BASE_DIR/universe_wsgi.ini.sample $GALAXY_BASE_DIR/universe_wsgi.ini; fi

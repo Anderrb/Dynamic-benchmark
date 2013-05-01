@@ -1,0 +1,29 @@
+#
+# Patches to Galaxy files by The Genomic HyperBrowser. The GalaxyBaseFile is
+# patched with the changes of the HyperBrowserFile and merged into
+# GalaxyOutputFile.
+#
+# Format:
+# HyperBrowserFile
+# HyperBrowserFile	GalaxyBaseFile
+# HyperBrowserFile	GalaxyBaseFile  GalaxyOutputFile
+#
+# If GalaxyBaseFile and/or GalaxyOutputFile are not specified, they are assumed
+# to be equal to HyperBrowserFile.
+#
+# Note that all file paths are relative to the HyperBrowser source directory
+# and the Galaxy installation directory, respectively. Localizations based on
+# LocalOSConfig are possible by using $CONSTANT.
+#
+# See the help for PatchFiles.py for more details.
+#
+
+#
+# Same name
+#
+
+#
+# Different name
+#
+
+custom/tool_conf.developer.xml	                    $GALAXY_REL_TOOL_CONFIG_FILE                $GALAXY_REL_TOOL_CONFIG_FILE

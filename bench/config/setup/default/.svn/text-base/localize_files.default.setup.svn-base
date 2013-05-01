@@ -1,0 +1,10 @@
+#
+# Files in the Galaxy file tree that are to be localized (by using the values
+# in LocalOSConfig.py). (These files should previously have been copied or
+# patched)
+#
+# Format:
+# GalaxyFile
+#
+# See the help for LocalizeFiles.py for more details.
+#

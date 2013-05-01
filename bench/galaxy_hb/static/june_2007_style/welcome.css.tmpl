@@ -1,0 +1,92 @@
+body  {
+    font: 80% verdana, "Bitstream Vera Sans", geneva, arial, helvetica, helve, sans-serif; 
+    background: $welcome_bg_bottom;
+    color: $welcome_text;
+    background-image: url(welcome_bg.png);
+    background-repeat: repeat-x;
+    background-position: top;
+    padding: 10px;
+}
+
+div.section {
+    vertical-align: middle;
+    padding: 20px;
+}
+
+p.blocktext {
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    padding: 5px;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.maininfobox, .detailsbox, .noticebox {
+    margin-left: auto;
+    margin-right: auto;
+    width: 85%;
+    padding: 20px;
+    min-height: 32px;
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    border: 1px solid $info_message_border;
+    border-color: $info_message_border;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.maininfobox {
+    background-color: $light_logo_color;
+}
+
+.noticebox {
+    background-color: $info_message_bg;
+}
+
+.detailsbox {
+    background-color: $lighter_logo_color;
+}
+
+.topheader {
+    font-size: 140%;
+    font-weight: bold;
+}
+
+.overview {
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.figuretext {
+    font-size: 90%;
+    font-weight: bold;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.centertext {
+    text-align: center;
+}
+
+td {
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+## Hacks
+
+a.codedirection {
+    white-space: nowrap;
+    unicode-bidi:bidi-override;
+    direction: rtl; 
+}

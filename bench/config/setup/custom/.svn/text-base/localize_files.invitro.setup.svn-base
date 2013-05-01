@@ -1,0 +1,24 @@
+#
+# Files in the Galaxy file tree that are to be localized (by using the values
+# in LocalOSConfig.py). (These files should previously have been copied or
+# patched)
+#
+# Format:
+# GalaxyFile
+#
+# See the help for LocalizeFiles.py for more details.
+#
+
+static/scripts/google_analytics_2.js
+static/hyperbrowser/html/Descriptive_statistics_draft.html
+static/hyperbrowser/html/Getting_started_draft.html
+static/hyperbrowser/html/Global_analysis_draft.html
+static/hyperbrowser/html/Hypothesis_testing_draft.html
+static/hyperbrowser/html/Intensity_tracks_draft.html
+static/hyperbrowser/html/Interface_overview_draft.html
+static/hyperbrowser/html/Local_analysis_draft.html
+static/hyperbrowser/html/What_is_the_GHB.html
+lib/galaxy/web/controllers/user.py
+universe_wsgi.runner.ini
+universe_wsgi.webapp.ini
+universe_wsgi.ini

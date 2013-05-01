@@ -1,0 +1,149 @@
+#!/bin/bash
+
+cd /web/lookalike
+#. galaxy_env.sh
+
+cmd=$1
+now=$(date +%F_%R)
+
+
+do_cleanup () {
+  pid=$1
+#  echo "cleanup $galaxy"
+#  cd $galaxy
+
+  . /web/lookalike/galaxy_env.sh
+
+  if [ -e "webalizer.conf" -a -s "paster.log" ]; then
+#    kill -STOP $pid
+    cp paster.log paster-old.log
+    echo -n > paster.log
+#    kill -CONT $pid
+    grep " - - \[" paster-old.log > logs/access/access-${now}.log
+    webalizer -Q -j logs/access/access-${now}.log
+  fi
+
+  sh scripts/cleanup_datasets/delete_userless_histories.sh 2>/dev/null
+#  sh scripts/cleanup_datasets/delete_datasets.sh 2>/dev/null
+  sh scripts/cleanup_datasets/purge_histories.sh 2>/dev/null
+  sh scripts/cleanup_datasets/purge_datasets.sh 2>/dev/null
+
+}
+
+
+start_Xvfb () {
+    killall Xvfb
+    sleep 2
+    Xvfb :9 -screen 0 1600x1200x24 -nolisten tcp >Xvfb.log 2>&1 &
+}
+
+do_check () {
+
+  if [ -e "$galaxy/run.sh" ]; then
+
+    cd $galaxy
+
+    pid=""
+    if [ -e paster.pid ]; then
+    pid=$(cat paster.pid)
+    fi
+    
+    if [ "$cmd" = "cleanup" ]; then
+      do_cleanup $pid
+      return
+    fi
+    
+    if [ "$control/stop" -nt "$control/last" ]; then
+    touch $control/last
+    ./run.sh --stop-daemon
+#    pkill -P $pid
+    sleep 5
+    kill $pid
+    rm paster.pid
+    
+    elif [ "$control/start" -nt "$control/last" ]; then
+    touch $control/last
+    ./run.sh --daemon
+    cat paster.pid
+    start_Xvfb
+    
+    elif [ "$control/restart" -nt "$control/last" ]; then
+    touch $control/last
+    ./run.sh --stop-daemon
+    rm -f paster.pid
+#    pkill -P $pid
+    kill $pid 2> /dev/null
+    sleep 5
+    kill -9 $pid 2> /dev/null
+    ./run.sh --daemon
+    #cat paster.pid
+    start_Xvfb
+    
+    elif [ "$control/killall" -nt "$control/last" ]; then
+    touch $control/last
+    rm paster.pid
+#    killall python
+    
+    elif [ "$pid" != "" ]; then
+      kill -0 $pid || touch $control/restart 
+#      up=$(lsof -i TCP@$host)
+#      #echo $up
+#      if [ "$up" == "" ]; then
+#        #kill -0 $pid || touch $control/restart
+#        touch $control/restart
+#      fi
+    fi
+
+  fi
+
+}
+
+
+
+touch /tmp/chk_galaxy.cron
+
+control=/web/lookalike/galaxy_stable_control
+galaxy=/web/lookalike/galaxy_stable
+host="insilico.titan.uio.no:8098"
+do_check
+
+
+# developer installation:
+control=/web/lookalike/galaxy_developer_control
+galaxy=/web/lookalike/galaxy_developer
+host="insilico.titan.uio.no:8099"
+do_check
+
+# ny galaxy developer installation:
+#control=/web/lookalike/galaxy_developer_2_control
+#galaxy=/web/lookalike/galaxy_developer_2
+#host="insilico.titan.uio.no:8094"
+#do_check
+
+# testing installation:
+control=/web/lookalike/galaxy_testing_control
+galaxy=/web/lookalike/galaxy_testing
+host="insilico.titan.uio.no:8097"
+do_check
+
+#control=/web/lookalike/galaxy_8096_control
+#galaxy=/web/lookalike/galaxy_8096
+#host="insilico.titan.uio.no:8096"
+#do_check
+
+#control=/web/lookalike/galaxy_8097_control
+#galaxy=/web/lookalike/galaxy_8097
+#host="insilico.titan.uio.no:8097"
+#do_check
+
+
+if [ "$cmd" == "preproc" ]; then
+  hb_dir="/web/lookalike/new_hb_develop/trunk"
+  export PYTHONPATH="$PYTHONPATH:$hb_dir"
+  python $hb_dir/quick/origdata/AllTracksPreProcessor.py 2>&1 > /tmp/hb_preproc.log
+fi
+
+if [ "$cmd" = "cleanup" ]; then
+  #echo "deleting old tmp-files"
+  find /hyperdata/tmp -maxdepth 1 -mtime +30 -exec rmdir \{\} \;
+fi

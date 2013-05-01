@@ -1,0 +1,6 @@
+#
+# Symlinks and other install commands. Localizations based on LocalOSConfig are possible by
+# using $CONSTANT.
+#
+
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/templates/hyperbrowser/gmap/template.html	$STATIC_PATH/maps/common/template.html

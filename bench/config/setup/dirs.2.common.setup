@@ -1,0 +1,12 @@
+#
+# Symlinks and other install commands. Localizations based on LocalOSConfig are possible by
+# using $CONSTANT.
+#
+
+# Create symlinks for custom scripts of regulome maps
+if [ ! -d $STATIC_PATH/maps/common ]; then mkdir -p $STATIC_PATH/maps/common; fi
+
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/templates/hyperbrowser/gmap/gmap.js		    $STATIC_PATH/maps/common/gmap.js
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/templates/hyperbrowser/gmap/gmap3.js		    $STATIC_PATH/maps/common/gmap3.js
+ln -sfT		$HB_GALAXY_SOURCE_CODE_BASE_DIR/templates/hyperbrowser/gmap/jquery.js	    $STATIC_PATH/maps/common/jquery.js
+ln -sfT     $HB_GALAXY_SOURCE_CODE_BASE_DIR/templates/hyperbrowser/gmap/make_index.sh	$STATIC_PATH/maps/.make_index.sh

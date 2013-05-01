@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.9: http://docutils.sourceforge.net/" />
+<meta http-equiv="expires" content="Wed, 19 Feb 2003 08:00:00 GMT">
+<title></title>
+<link rel="stylesheet" href="style/welcome.css" type="text/css" />
+
+        <script type="text/javascript" src="$URL_PREFIX/static/scripts/jquery.js"></script>
+        <script type="text/javascript" src="$URL_PREFIX/static/scripts/google_analytics_1.js"></script>
+    	<script type="text/javascript" src="$URL_PREFIX/static/scripts/google_analytics_2.js"></script>
+
+        <script type="text/javascript">
+            var q = jQuery.noConflict();
+            q(document).ready(function() { 
+                q( "a[minsizehint]" ).click( function() {
+                    if ( parent.handle_minwidth_hint ) {
+                        parent.handle_minwidth_hint( q(this).attr( "minsizehint" ) );
+                    }
+                });
+            });
+        </script>
+
+</head>
+<body>
+
+
+<div class="section">
+  <img src="$STATIC_REL_PATH/images/logo/$WELCOME_LOGO_IMAGE" class="center">
+</div>
+
+<div class="document">
+
+$WELCOME_NOTICE_HTML
+
+<div class="maininfobox">
+<table><tr><td>
+<h2 class="topheader">If you have a <i>genomic track</i>, this is the place to analyze&nbsp;it!</h2>
+<h3 class="overview">To analyze a track, simply:
+<ol>
+<li>Click <a minsizehint="-1" href="$URL_PREFIX/hyper">The Genomic Hyperbrowser: Perform analysis</a> in the left-hand menu.
+<li>Select tracks from your Galaxy history of browse our collection. <br> <i>(To load a track to your history, click <a minsizehint="-1" href="$URL_PREFIX/tool_runner?tool_id=upload1">Get data: Upload file</a>)</i>
+<li>Select the analysis you are interested in:
+<ul>
+<li>any property of a single track
+<li>any relation between a pair of tracks
+</ul>
+</ol>
+For help using the system:
+<ol>
+<li>Click <a href="https://sites.google.com/site/hyperbrowserhelp/?tool_id=hb_help">The Genomic Hyperbrowser: Help</a> in the left-hand menu.
+<li>Or, look through the following screencasts: <br> <i>(further screencasts are available from the help menu)</i>
+</ol>
+</h3>
+<h4 class="figuretext">
+<table class="centertext" style="margin-left: 40px;">
+    <tr>
+      <td>
+	<a href="javascript:parent.show_in_overlay({url:'$STATIC_REL_PATH/html/What_is_the_GHB.html',width:576,height:384,scroll:'no'})">
+	<img src="$STATIC_REL_PATH/images/videos/What is the GHB.png">
+	</a>
+      </td>
+      <td>
+	<a href="javascript:parent.show_in_overlay({url:'$STATIC_REL_PATH/html/Getting_started_draft.html',width:576,height:424,scroll:'no'})">
+	<img src="$STATIC_REL_PATH/images/videos/Getting started.png">
+	</a>
+      </td>
+      <td>
+	<a href="javascript:parent.show_in_overlay({url:'$STATIC_REL_PATH/html/Interface_overview_draft.html',width:576,height:424,scroll:'no'})">
+	<img src="$STATIC_REL_PATH/images/videos/Interface overview.png">    </tr>
+	</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<i>What is <br> the Genomic <br> HyperBrowser?</i>
+      </td>
+      <td>
+	<i>Getting started</i>
+      </td>
+      <td>
+	<i>Interface overview</i>
+      </td>
+    </tr>
+  </table>
+</td></tr></table>
+</h4>
+</div>
+
+<div class="detailsbox">  
+<b>Introduction</b>
+<p> The Genomic HyperBrowser is a generic web-based system, providing statistical
+    methodology and computing power to handle a variety of biological inquires on genomic
+    datasets. <a href="http://genomebiology.com/2010/11/12/R121/abstract">A paper on the system</a>
+    was published in December 2010 by Genome Biology.</p>
+
+<b>GTrack</b>
+<p> <a href="http://www.biomedcentral.com/1471-2105/12/494/">A paper identifying 15 generic track types</a>
+    was published in BMC Bioinformatics in December 2011. For an overview of the 15 track types, click
+    <a href='$URL_PREFIX/static/hyperbrowser/images/illustrations/tracktypes.png'>here</a>. The paper introduces the GTrack format, a tabular format
+    that are able to handle all 15 track types, this in contrast to formats like BED, WIG and GFF, each
+    covering only a handful of the track types. The Genomic HyperBrowser now supports the GTrack format and
+    all 15 track types.
+    <a minsizehint="-1" href="$URL_PREFIX/static/hyperbrowser/gtrack/GTrack_specification.html?x=x">The GTrack
+    specification</a> is available from the "Create and edit GTrack files" tool section, in addition to
+    tools used to create, edit and validate GTrack files.
+</p>
+
+<b>MCFDR</b>
+<p> MCFDR is a novel algorithm for multiple hypothesis testing using the combination of sequential
+    Monte Carlo (MC) and False Discovery Rate (FDR).
+    MCFDR was introduced in <a href="http://bioinformatics.oxfordjournals.org/content/27/23/3235">
+    a paper</a> published in Bioinformatics in October 2011. The main idea is that MC sampling is
+    stopped either by sequential MC or based on a threshold on FDR.
+    The algorthm provides large gains in computational efficiency, and is now used for
+    hypothesis testing in the Genomic HyperBrowser.
+</p>
+
+<b>Differential disease regulome</b>
+<p> A prime example of the HyperBrowser is the Differential disease regulome, mapping Transcription Factors
+    against all human diseases.
+    A <a href="http://www.biomedcentral.com/1471-2164/12/353">paper on the method</a> was published by
+    BMC Genomics in July 2011.
+    The Differential disease regulome can be viewed in its
+    <a minsizehint="800" href="$STATIC_REL_PATH/maps/final_tfbs_barjoseph_phenopedia_min20_binary_average_euc_0.01_rowsum">main version here</a>.</p>
+<p> Different versions of the disease regulome are
+    <a minsizehint="800" href="$URL_PREFIX/hyper?GALAXY_URL=$%STATIC_REL_PATH%2Ftool_runner&tool_id=hb_regulomes&mako=regulomes">
+    available for browsing</a>, as well as several other similar regulatory maps.</p>
+<p> It is also easy to <a minsizehint="-1" href="$URL_PREFIX/hyper?dbkey=hg18&track1=Sample data%3AA few TFs%3A-- All subtypes --&track2=Sample data%3AA few diseases%3A-- All subtypes --&analysis=Category pairs differentially co-located%3F&method=auto&region=chr1&binsize=10m">
+    interactively generate a regulome</a> on a predefined sample dataset
+    (which of course can easily be changed to other suited data sources).</p>
+
+<b>Contact information</b>
+  <p>
+If you have any questions, requests or comments of any kind, please use our discussion forum, available from the <a minsizehint="-1" href="https://sites.google.com/site/hyperbrowserhelp/?tool_id=hb_help">Help</a> menu, or send an email to <a href="#" onclick="this.href='mailto:'+ this.innerHTML.split('').reverse().join('')" class="codedirection">on.oiu.tisu@stseuqer-resworbrepyh</a>&#x200E;. We are happy to respond. We especially encourage collaborative projects for further development. If you find any bugs, please send an email to
+<a href="#" onclick="this.href='mailto:'+ this.innerHTML.split('').reverse().join('')" class="codedirection">on.oiu.tisu@sgub-resworbrepyh</a>.</p>
+  <p>If you register as a user, you will get the option to subscribe to the <a href="#" onclick="this.href='mailto:'+ this.innerHTML.split('').reverse().join('')" class="codedirection">on.oiu.tisu@ofni-resworbrepyh</a> mailing list. Here, we will send announcements and administrative messages for users of the system. A backlog of announcements is available from the Help menu. Citation info is also available from the Help menu.</p>
+  </p>
+</div>
+
+<p class="blocktext">
+  This project is being developed by the Norwegian bioinformatics community as an open-source project under the GPL  license v3,
+  supported by various national and local bodies. The source code is available for download from <a href="$URL_PREFIX/static/download.html">this page</a>.
+  </p>
+  <p class="blocktext">
+    For further info on Norwegian bioinformatics, see <a href="http://www.bioinfo.no">www.bioinfo.no</a>.
+  </p>
+</div>
+
+<div class="section">
+  <img src="$STATIC_REL_PATH/images/logo/HB_support.png" class="center">
+</div>

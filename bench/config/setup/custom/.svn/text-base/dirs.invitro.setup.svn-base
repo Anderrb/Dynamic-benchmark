@@ -1,0 +1,80 @@
+#
+# Symlinks and other install commands. Localizations based on LocalOSConfig are possible by
+# using $CONSTANT.
+#
+
+#
+# Handle external HyperBrowser data directories
+#
+
+# Create new external directories, if not present
+if [ ! -d $EXT_NONSTANDARD_DATA_PATH ]; then mkdir -p $EXT_NONSTANDARD_DATA_PATH; fi
+if [ ! -d $EXT_ORIG_DATA_PATH ]; then mkdir -p $EXT_ORIG_DATA_PATH; fi
+if [ ! -d $EXT_PARSING_ERROR_DATA_PATH ]; then mkdir -p $EXT_PARSING_ERROR_DATA_PATH; fi
+if [ ! -d $EXT_PROCESSED_DATA_PATH ]; then mkdir -p $EXT_PROCESSED_DATA_PATH; fi
+if [ ! -d $EXT_MEMOIZED_DATA_PATH ]; then mkdir -p $EXT_MEMOIZED_DATA_PATH; fi
+
+if [ ! -d $EXT_DATA_FILES_PATH ]; then mkdir -p $EXT_DATA_FILES_PATH; fi
+if [ ! -d $EXT_UPLOAD_FILES_PATH ]; then mkdir -p $EXT_UPLOAD_FILES_PATH; fi
+if [ ! -d $EXT_LOG_PATH ]; then mkdir -p $EXT_LOG_PATH; fi
+if [ ! -d $EXT_MAPS_PATH ]; then mkdir -p $EXT_MAPS_PATH; fi
+if [ ! -d $EXT_NMER_CHAIN_DATA_PATH ]; then mkdir -p $EXT_NMER_CHAIN_DATA_PATH; fi
+if [ ! -d $EXT_RESULTS_PATH ]; then mkdir -p $EXT_RESULTS_PATH; fi
+
+if [ ! -d $EXT_TMP_PATH ]; then mkdir -p $EXT_TMP_PATH; fi
+
+# Create directories required for symlinks, if not present
+if [ ! -d $HB_DATA_BASE_DIR ]; then mkdir -p $HB_DATA_BASE_DIR; fi
+if [ ! -d $TRACKS_BASE_DIR ]; then mkdir -p $TRACKS_BASE_DIR; fi
+
+#
+# Create symlinks for static web files and directories
+#
+
+ln -sfT		$SRC_STATIC_PATH/gtrack                 $STATIC_PATH/gtrack
+
+# Symlink the external directories to the standard locations in the Galaxy
+# directory tree
+ln -sfT		$EXT_NONSTANDARD_DATA_PATH              $NONSTANDARD_DATA_PATH
+ln -sfT		$EXT_ORIG_DATA_PATH                     $ORIG_DATA_PATH
+ln -sfT		$EXT_PARSING_ERROR_DATA_PATH            $PARSING_ERROR_DATA_PATH
+ln -sfT		$EXT_PROCESSED_DATA_PATH                $PROCESSED_DATA_PATH
+ln -sfT		$EXT_NMER_CHAIN_DATA_PATH               $NMER_CHAIN_DATA_PATH
+
+ln -sfT		$EXT_DATA_FILES_PATH                    $DATA_FILES_PATH
+ln -sfT		$EXT_UPLOAD_FILES_PATH                  $UPLOAD_FILES_PATH
+ln -sfT		$EXT_LOG_PATH			                      $LOG_PATH
+ln -sfT		$EXT_RESULTS_PATH                       $RESULTS_PATH
+ln -sfT		$EXT_MEMOIZED_DATA_PATH                 $MEMOIZED_DATA_PATH
+
+ln -sfT		$EXT_VIDEOS_PATH                        $STATIC_PATH/videos
+ln -sfT 	$EXT_STATIC_FILES_PATH                  $STATIC_PATH/files
+
+# Create result subdirs, if not present. Result directory is already symlinked
+# to external result directory
+if [ ! -d $RESULTS_FILES_PATH ]; then mkdir -p $RESULTS_FILES_PATH; fi
+if [ ! -d $RESULTS_JOB_WORKING_DIR ]; then mkdir -p $RESULTS_JOB_WORKING_DIR; fi
+if [ ! -d $RESULTS_STATIC_PATH ]; then mkdir -p $RESULTS_STATIC_PATH; fi
+if [ ! -d $RESULTS_STATIC_PATH/run_specific ]; then mkdir -p $RESULTS_STATIC_PATH/run_specific; fi
+
+# Is a subdir of RESULTS_STATIC_PATH, must thus be created afterwards
+ln -sfT		$EXT_MAPS_PATH                          $MAPS_PATH
+
+#
+# Handle Galaxy output directories
+#
+
+# Remove previous links, if present
+if [ -h $GALAXY_FILE_PATH ]; then rm $GALAXY_FILE_PATH; fi
+if [ -h $GALAXY_JOB_WORKING_DIR ]; then rm $GALAXY_JOB_WORKING_DIR; fi
+if [ -h $GALAXY_NEW_FILE_PATH ]; then rm $GALAXY_NEW_FILE_PATH; fi
+
+# Rename previous directories, if present
+if [ -d $GALAXY_FILE_PATH ]; then mv -T $GALAXY_FILE_PATH $GALAXY_FILE_PATH.old; fi
+if [ -d $GALAXY_JOB_WORKING_DIR ]; then mv -T $GALAXY_JOB_WORKING_DIR $GALAXY_JOB_WORKING_DIR.old; fi
+if [ -d $GALAXY_NEW_FILE_PATH ]; then mv -T $GALAXY_NEW_FILE_PATH $GALAXY_NEW_FILE_PATH.old; fi
+
+# Create symlinks to from Galaxy output directories to HyperBrowser directories
+ln -sfT		$RESULTS_FILES_PATH				        $GALAXY_FILE_PATH
+ln -sfT		$RESULTS_PATH/job_working_directory		$GALAXY_JOB_WORKING_DIR
+ln -sfT		$EXT_TMP_PATH                       	$GALAXY_NEW_FILE_PATH  

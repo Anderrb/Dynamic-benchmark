@@ -1,0 +1,13 @@
+K 10
+svn:ignore
+V 12
+*.pyc
+*.old
+
+K 13
+svn:mergeinfo
+V 141
+/new_hb/branches/unstable/galaxy_hb/lib:14327-22907
+/new_hb/branches/v1.5.0/galaxy_hb/lib:22516-23372
+/new_hb/trunk/galaxy_hb/lib:14323-23099
+END

@@ -1,0 +1,8 @@
+#
+# Sets correct permissions. Localizations based on LocalOSConfig are possible by
+# using $CONSTANT.
+#
+# Format:
+# command	sourceFileName
+#
+chmod 775	$GALAXY_BASE_DIR/run.sh

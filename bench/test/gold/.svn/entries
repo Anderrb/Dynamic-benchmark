@@ -1,0 +1,86 @@
+10
+
+dir
+32844
+svn+ssh://anderrb@invitro.titan.uio.no/projects/bioinfoprojects/svn_repository/new_hb/branches/bench/test/gold
+svn+ssh://anderrb@invitro.titan.uio.no/projects/bioinfoprojects/svn_repository
+
+
+
+2012-10-10T17:32:12.220474Z
+23100
+anderrb
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+d94f27fe-2152-0410-b122-e291441cfa96
+
+aux
+dir
+
+util
+dir
+
+formatconversion
+dir
+
+graph
+dir
+
+application
+dir
+
+track
+dir
+
+__init__.py
+file
+
+
+
+
+2012-06-05T11:32:43.183019Z
+d41d8cd98f00b204e9800998ecf8427e
+2011-05-05T14:43:59.485648Z
+7460
+sveinugu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0
+
+statistic
+dir
+
+origdata
+dir
+

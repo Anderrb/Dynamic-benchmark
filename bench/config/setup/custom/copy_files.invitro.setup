@@ -1,0 +1,32 @@
+#
+# Files and directories from The Genomic HyperBrowser that are copied to the
+# Galaxy file tree.
+#
+# Format:
+# HyperBrowserFile	[GalaxyFile]
+#
+# If GalaxyFile is not specified, it is assumed to be equal to HyperBrowserFile.
+#
+# Note that all file paths are relative to the HyperBrowser source directory
+# and the Galaxy installation directory, respectively. Localizations based on
+# LocalOSConfig are possible by using $CONSTANT.
+#
+# See the help for CopyFiles.py for more details.
+#
+
+#
+# Same name
+#
+
+static/hyperbrowser/html/Descriptive_statistics_draft.html
+static/hyperbrowser/html/Getting_started_draft.html
+static/hyperbrowser/html/Global_analysis_draft.html
+static/hyperbrowser/html/Hypothesis_testing_draft.html
+static/hyperbrowser/html/Intensity_tracks_draft.html
+static/hyperbrowser/html/Interface_overview_draft.html
+static/hyperbrowser/html/Local_analysis_draft.html
+static/hyperbrowser/html/What_is_the_GHB.html
+
+#
+# Different name
+#
